@@ -1,0 +1,84 @@
+<h1 align='center'>All Assignments</h1>
+
+<div class='container'>
+  <table class='table table-condensed table-bordered table-hover'>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Role</th>
+        <th>Active</th>
+        <th>CI</th>
+        <th>Place</th>
+        <th>TCs</th>
+        <th>CCs</th>
+        <th>VCs</th>
+        <th>ECs</th>
+        <th>TotCs</th>
+        <th>#Sens</th>
+        <th>VT</th>
+        <th>CT</th>
+        <th>TotT</th>
+        <th>Time/Sen</th>
+        <th>%Compl</th>
+        <th>M TEs</th>
+        <th>T TEs</th>
+        <th>Z TEs</th>
+        <th>N TEs</th>
+        <th>TotTEs</th>
+        <th>Translation</th>
+        <th>User</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+<% @assignments.each do |a| %>
+        <tr>
+  <% #do here, else will be calculated multiple times %>
+  <% ## assign_vote_time = assignment_vote_time(assignment) %>
+  <% assign_vote_time = a.vote_time %>
+  <% ## assign_create_time = assignment_create_time(assignment) %>
+  <% assign_create_time = a.create_time %>
+  <% assign_total_time = assign_vote_time + assign_create_time %>
+  <% assign_sen_count = a.sentence_count if a.translation %>
+  <% assign_vote_contrib_count = a.contribution_count('V') if a.translation %>
+          <td><%= link_to a.id, assignment_path(a) %></td>
+          <td><%= a.role %></td>
+          <td><%= a.active %></td>
+          <td><%= a.ci %></td>
+          <td><%= a.place %></td>
+	  <td><%= a.contribution_count('T') %></td>
+	  <td><%= a.contribution_count('C') %></td>
+	  <td><%= a.contribution_count('V') %></td>
+	  <td><%= a.contribution_count('E') %></td>
+	  <td><%= a.total_contribution_count %></td>
+	  <td><%= assign_sen_count %></td>
+	  <td><%= assign_vote_time %></td>
+	  <td><%= assign_create_time %></td>
+	  <td><%= assign_total_time %></td>
+  <% if ['TE', 'CE'].include? a.role %>
+          <td><%= '%.1f' % (assign_total_time.to_f/assign_vote_contrib_count) if assign_vote_contrib_count > 0  %></td>
+    <% votes = a.contributions.where(kind: 'V').count %>
+    <% sens = assign_sen_count.to_f if a.translation %>
+          <td><%= '%.1f' % ((votes/sens)*100) if sens > 0  %></td>
+  <% else %>
+          <td><%= 'N/A' %></td>
+          <td><%= 'N/A' %></td>
+  <% end %>
+  <% m_top_edit_count = a.top_edit_count('M') %>
+  <% t_top_edit_count = a.top_edit_count('T') %>
+  <% z_top_edit_count = a.top_edit_count('Z') %>
+  <% n_top_edit_count = a.top_edit_count('N') %>
+          <td><%= m_top_edit_count %></td>
+          <td><%= t_top_edit_count %></td>
+          <td><%= z_top_edit_count %></td>
+          <td><%= n_top_edit_count %></td>
+          <td><%= m_top_edit_count + t_top_edit_count + z_top_edit_count %></td>
+          <td><%= link_to a.translation.translation_text, message_translation_path(a.translation.message, a.translation) if a.translation %></td>
+          <td><%= link_to a.user.username, user_path(a.user) if a.user %></td>
+          <td><%= link_to 'Edit', edit_assignment_path(a) %></td>
+          <td><%= link_to 'Destroy', a, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+<% end %>
+    </tbody>
+  </table>
+</div>

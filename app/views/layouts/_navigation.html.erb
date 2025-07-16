@@ -1,0 +1,107 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <!--<a class='navbar-brand'><img src="<%#= asset_path('od-32.png') %>"></a>-->
+      <a class='navbar-brand' href="/"><img src="<%= asset_path('favicon.png') %>"></a>
+      <!--<a class='navbar-brand'><span style='color:white;'>TOD</span><span style='color:gold;font-style:italic;font-size:82%;font-weight:bold;text-decoration:overline'>PROOF</span></a>-->
+      <a class='navbar-brand' href="/"><span style='color:white;'>easy</span>&nbsp;<span style='color:#00aef0;font-weight:normal;text-decoration:none'>translate</span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+<% if user_signed_in? and current_user.admin? %>
+        <li class="dropdown">
+          <a id='l' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">All <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Messages', messages_path %></li>
+            <li><%= link_to 'Translations', all_translations_path %></li>
+            <li><%= link_to 'Users', users_path %></li>
+            <li><%= link_to 'Assignments', assignments_path %></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a id='l' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'New Message', new_message_path %></li>
+            <li><%#= link_to 'New Translation', new_translation_path %></li>
+            <li><%#= link_to 'New Sentence', new_sentence_path %></li>
+            <li><%#= link_to 'New Edit', new_edit_path %></li>
+            <li><%= link_to 'New User', new_user_registration_path %></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+<% end %>
+<% if user_signed_in? %> 
+        <li class="dropdown">
+          <a id='l' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Assignments <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+  <% assigns = current_user.assignments.where(active: true).sort_by{|a| [a.translation.lan, a.translation.message.descriptor]} %>
+  <% assigns.each do |a| %>
+	  <li><%= link_to("[#{a.translation.lan}] #{format_descriptor(a.translation.message.descriptor)} #{a.translation.message.title} (#{a.role})", {controller: "users", action: "switch_current_assignment", id: current_user.id, assignment_id: a.id})         %></li>
+  <% end %>
+          </ul>
+        </li>
+  <% if current_user.admin? %>
+	<li><%= link_to "[#{current_user.cur_assign.translation.lan}] #{format_descriptor(current_user.cur_assign.translation.message.descriptor)} #{current_user.cur_assign.translation.message.title} (#{current_user.cur_assign.role})", {controller: "assignments", action: "show", id: current_user.cur_assign.id}, id: 'l3' if(current_user.cur_assign) %></li>
+	<li><%= link_to "#{current_user.username}", {controller: "users", action: "show", id: current_user.id}, id: 'l3' %></li>
+  <% else %>
+	<li><%= link_to "[#{current_user.cur_assign.translation.lan}] #{format_descriptor(current_user.cur_assign.translation.message.descriptor)} #{current_user.cur_assign.translation.message.title} (#{current_user.cur_assign.role})", "", id: 'fake-link' if(current_user.cur_assign) %></li>
+	<li><%= link_to "#{current_user.username}", "", id: 'fake-link' %></li>
+  <% end %>
+<% end %>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+<% if user_signed_in? %>
+        <li class="dropdown">
+          <a id='l' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Report<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Personal Report', report_assignment_path(current_user.cur_assign) if current_user.cur_assign %></li>
+            <li><%= link_to 'Team Report', team_assignments_path if current_user.cur_assign && current_user.cur_assign.role == 'CE' %></li>
+            <li><%= link_to 'Status Report', status_assignments_path if current_user.admin? %></li>
+            <li><%= link_to '7 Day Report', status_assignments_seven_day_path if current_user.admin? %></li>
+            <li><%= link_to 'All-Time Work Report', status_assignments_all_time_work_path if current_user.admin? %></li>
+            <li><%= link_to 'All-Time Translations Report', status_assignments_all_time_translations_path if current_user.admin? %></li>
+          </ul>
+        </li>
+	<li><%= link_to 'Help', help_path, id: 'l' %></li>
+        <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete, id: 'l' %></li>
+        <li class="dropdown">
+          <a id='l' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Enable auto-advance after VOTE', enable_auto_advance_after_vote_path if !session[:auto_advance_after_vote] %></li>
+            <li><%= link_to 'Disable auto-advance after VOTE', disable_auto_advance_after_vote_path if session[:auto_advance_after_vote] %></li>
+            <li><%= link_to 'Enable auto-advance after SAVE', enable_auto_advance_after_save_path if !session[:auto_advance_after_save] %></li>
+            <li><%= link_to 'Disable auto-advance after SAVE', disable_auto_advance_after_save_path if session[:auto_advance_after_save] %></li>
+            <li role="separator" class="divider"></li>
+            <li><%= link_to 'Edit your profile', edit_user_registration_path %></li>
+            <li><%= link_to 'View your profile', user_path(current_user) if current_user.admin? %></li>
+<% if false %>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+<% end %>
+          </ul>
+        </li>
+<% else %>
+        <li><%= link_to 'Sign in', new_user_session_path, id: 'l' %></li>
+<% end %>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

@@ -1,0 +1,4 @@
+<div class='center jumbotron'>
+	<!--<h1><span style='font-weight:normal;'>TOD</span><span style='color:gold;font-style:italic;font-weight:bold;text-decoration:overline;font-size:82%'>PROOF</span></h1>-->
+  <%= link_to "Timed out - Back to Proofread View", {controller: "users", action: "switch_current_assignment", id: current_user.id, assignment_id: current_user.cur_assign.id}, class: 'btn btn-xlarge btn-lg btn-success btn-primary' %>
+</div>

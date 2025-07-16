@@ -1,0 +1,130 @@
+
+<div class='row'>
+  <div class='col-xs-12'>
+    <%= form_for(@text_export, :html => {class: 'form-horizontal', role: 'form'}) do |f| %>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :export_mode %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.select :export_mode, [ ['Preview', 'PREVIEW'], ['Download', 'DOWNLOAD'], ['Remote', 'REMOTE'] ], class: 'form-control', placeholder: 'Export mode' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :export_format %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.select :export_format, [ ['Regular', 'REG'], ['MHub', 'HUB'] ], class: 'form-control', placeholder: 'Export format' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :blk_separators %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.select :blk_separators, [ ['One newline', 1], ['Two newlines', 2] ], class: 'form-control', placeholder: 'Block separators' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :sub_separators %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.select :sub_separators, [ ['No newlines', 0], ['One newline', 1], ['Two newlines', 2] ], class: 'form-control', placeholder: 'Sub-Block separators' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :sen_separators %>
+        </div>
+        <div class='col-sm-8'>
+		<%= f.select :sen_separators, [ ['No spaces', 0], ['One space', 1], ['Two spaces', 2], ['Three spaces', 3] ], :selected => ['One space', 1], class: 'form-control', placeholder: 'Sentence separators' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :format_emphases %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.check_box :format_emphases, class: 'form-control', placeholder: 'Format emphases' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :format_scripture_sentences %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.check_box :format_scripture_sentences, class: 'form-control', placeholder: 'Format scripture sentences' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :format_conversation_sentences %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.check_box :format_conversation_sentences, class: 'form-control', placeholder: 'Format conversation sentences' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :format_poetry_sentences %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.check_box :format_poetry_sentences, class: 'form-control', placeholder: 'Format poetry sentences' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :show_blk_numbers %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.check_box :show_blk_numbers, class: 'form-control', placeholder: 'Show block numbers' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :show_sub_numbers %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.check_box :show_sub_numbers, class: 'form-control', placeholder: 'Show sub-block numbers' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :show_rsub_numbers %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.check_box :show_rsub_numbers, class: 'form-control', placeholder: 'Show running sub-block numbers' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :show_sen_numbers %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.check_box :show_sen_numbers, class: 'form-control', placeholder: 'Show sentence numbers' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :show_rsen_numbers %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.check_box :show_rsen_numbers, class: 'form-control', placeholder: 'Show running sentence numbers' %> 
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class='col-sm-offset-2 col-xs-10'>
+          <%= f.submit 'Export Text', class: 'btn btn-primary btn-lg' %>
+        </div>
+      </div>      
+    <% end %>
+
+    <div class='col-xs-4 col-xs-offset-4'>
+      [ <%= link_to "Cancel request and return to current assignment", current_user.cur_assign %> ]
+    </div>    
+
+  </div>
+</div>

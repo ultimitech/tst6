@@ -1,0 +1,162 @@
+<% if user_signed_in? %>
+
+<% if current_user.cur_assign %>
+  <% translation = current_user.cur_assign.translation %>
+  <% sentence = translation.sentences.where(rsen: current_user.cur_assign.place).first %>
+<div class='center'>
+  <%= link_to "Back to Proofread View", translation_sentence_path(translation, sentence), class: 'btn btn-xlarge btn-lg btn-success btn-primary' %>
+</div><br/>
+<% end %>
+
+<div class='well'>
+  <h3 align=center>Proofreading Instructions</h3><br>
+  <div align='center'>
+    <i class="btn btn-info btn-default glyphicon glyphicon-chevron-left"></i>
+    <i class="btn btn-warning btn-default glyphicon glyphicon-minus"></i>&nbsp;&nbsp;
+    <input type="text" value="100" size="4">
+    <i class="btn btn-outline btn-default glyphicon glyphicon-forward"></i>&nbsp;
+    <span>3/233 <strong>1.3%</strong></span>&nbsp;
+    <input type="text" value="seals" size="7">
+    <i class="btn btn-outline btn-default glyphicon glyphicon-search"></i>&nbsp;&nbsp;
+    <i class="btn btn-outline btn-default glyphicon glyphicon-bookmark"></i>&nbsp;&nbsp;
+    <i class="btn btn-outline btn-default glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;
+    <i class="btn btn-warning btn-default glyphicon glyphicon-plus"></i>
+    <i class="btn btn-info btn-default glyphicon glyphicon-chevron-right"></i>
+  </div><br/>
+  <ol>
+   <li>Read the English sentence (which appears in <span style='color:blue'>blue</span>).</li>
+   <li>Read the provided translation that appears below the English sentence (in black with red background).</li>
+   <li>If you are satisfied with the provided translation, click the green button (on the right) to confirm that. If you are not satisfied, click anywhere on the provided translation text to make changes. When done, click the 'Save' button.</li>
+   <li>Click the '<' and '>' light-blue buttons to go to the previous/next sentence.</li>
+   <li>Click the '+' and '-' orange buttons to increase/decrease the context.</li>
+   <li>Each time you click the '+' button the context will be increased by providing an additional pair of surrounding English sentences. The '-' button will decrease the context in the opposite way.</li>
+   <li>AUTO-ADVANCE FUNCTIONALITY: </li>
+     <ol> 
+       <li>Auto-advance instructs the system to click the '>' button on your behalf if you choose.</li>
+       <li>After clicking on the green Vote button, the system will automatically advance to the next sentence.</li>
+       <li>To enable this, click on 'Profile' and then on 'Enable auto-advance after VOTE'.</li>
+       <li>Similarly, after clicking on the Save button (when changing a sentence), the system will automatically advance to the next sentence.</li>
+       <li>To enable this, click on 'Profile' and then on 'Enable auto-advance after SAVE'.</li>
+       <li>NOTE: Your settings are stored in your session and will be lost when you logout. They will both default to DISABLED when you login again.</li>
+       <li>The '>' button can always be used for advancing to the next sentence, regardless of your auto-advance settings, for example if you just want to look through some sentences.</li>
+     </ol> 
+  </ol>
+ </div>
+
+<div class='well'>
+  <h3 align=center>Navigation Instructions</h3><br>
+  <div align='center'>
+    <i class="btn btn-info btn-default glyphicon glyphicon-chevron-left"></i>
+    <i class="btn btn-outline btn-default glyphicon glyphicon-minus"></i>&nbsp;&nbsp;
+    <input type="text" value="100" size="4">
+    <i class="btn btn-info btn-default glyphicon glyphicon-forward"></i>&nbsp;
+    <span>3/233 <strong>1.3%</strong></span>&nbsp;
+    <input type="text" value="seals" size="7">
+    <i class="btn btn-outline btn-default glyphicon glyphicon-search"></i>&nbsp;&nbsp;
+    <i class="btn btn-info btn-default glyphicon glyphicon-bookmark"></i>&nbsp;&nbsp;
+    <i class="btn btn-outline btn-default glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;
+    <i class="btn btn-outline btn-default glyphicon glyphicon-plus"></i>
+    <i class="btn btn-info btn-default glyphicon glyphicon-chevron-right"></i>
+  </div><br/>
+  <ol>
+    <li>The <strong>light-blue</strong> buttons have to do with navigation and your place in the document.</li>
+    <li>Click the '<' and '>' light-blue buttons to go to the previous/next sentence.</li>
+    <li>If you need to jump to a specific sentence, enter the sentence number in the box to the left of the '>>' button. Then click the '>>' button.</li>
+    <li>Your current sentence number is always shown in the box to the left of the '>>' button</li>
+    <li>Each time you click the '<', '>', or '>>' buttons, your place in the document is recorded. You can then click the '|^|' (bookmark) button to return to your place (after visiting search hits).</li>
+  </ol>
+</div>
+
+<div class='well'>
+  <h3 align=center>Search Instructions</h3><br>
+  <div align='center'>
+    <i class="btn btn-outline btn-default glyphicon glyphicon-chevron-left"></i>
+    <i class="btn btn-outline btn-default glyphicon glyphicon-minus"></i>&nbsp;&nbsp;
+    <input type="text" value="100" size="4">
+    <i class="btn btn-outline btn-default glyphicon glyphicon-forward"></i>&nbsp;
+    <span>3/233 <strong>1.3%</strong></span>&nbsp;
+    <input type="text" value="seals" size="7">
+    <i class="btn btn-success btn-default glyphicon glyphicon-search"></i>&nbsp;&nbsp;
+    <i class="btn btn-outline btn-default glyphicon glyphicon-bookmark"></i>&nbsp;&nbsp;
+    <i class="btn btn-outline btn-default glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;
+    <i class="btn btn-outline btn-default glyphicon glyphicon-plus"></i>
+    <i class="btn btn-outline btn-default glyphicon glyphicon-chevron-right"></i>
+  </div><br/>
+  <ol>
+    <li>The <strong>green</strong> "spy-glass" button have to do with searching through the text in your document.</li>
+    <li>Both the English as well as the Translated text is searched.</li>
+    <li>Enter a search term (one or more words) into the box to the left of the green search button. Then, click the green search button.</li>
+    <li>All sentences that contain your search term will be returned in the search results.</li>
+    <li>The search results are divided into 3 sections: English hits appear first, then the hits in sentences that are associated with YOUR work (i.e. sentences that you have created, modified, or voted for). Lastly, hits in sentences not associated with your work are shown.</li>
+    <li>Each search hit is preceded with its sentence number which can be clicked to visit that sentence.</li>
+    <li>Visiting sentences in this way does NOT modify your PLACE in the document and after visiting your search results you can RETURN to your place by clicking the light-blue '|^|' (bookmark) button.</li>
+    <li>To return to the search results, click the green "spy-glass" button again.</li>
+    <li>Your current search term persists in the box to the left of the green "spy-glass" button until you change it.</li>
+    <li>Click the 'Back to Proofread View' button at the bottom to return to the proofread view.</li>
+  </ol>
+</div>
+
+<div class='well'>
+  <h3 align=center>Preview Instructions</h3><br>
+  <div align='center'>
+    <i class="btn btn-outline btn-default glyphicon glyphicon-chevron-left"></i>
+    <i class="btn btn-outline btn-default glyphicon glyphicon-minus"></i>&nbsp;&nbsp;
+    <input type="text" value="100" size="4">
+    <i class="btn btn-outline btn-default glyphicon glyphicon-forward"></i>&nbsp;
+    <span>3/233 <strong>1.3%</strong></span>&nbsp;
+    <input type="text" value="seals" size="7">
+    <i class="btn btn-outline btn-default glyphicon glyphicon-search"></i>&nbsp;&nbsp;
+    <i class="btn btn-outline btn-default glyphicon glyphicon-bookmark"></i>&nbsp;&nbsp;
+    <i class="btn btn-primary btn-default glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;
+    <i class="btn btn-outline btn-default glyphicon glyphicon-plus"></i>
+    <i class="btn btn-outline btn-default glyphicon glyphicon-chevron-right"></i>
+  </div><br/> 
+  <ol>
+    <li>The <strong>dark-blue</strong> "eye" button has to do with seeing a limited preview of your work.</li>
+    <li>The previewer takes your CURRENT PLACE, then counts 20 sentences backwards, and shows that piece of work.</li>
+    <li>This means your current sentence will appear at the BOTTOM of the preview.</li>
+    <li>The English text appears in BLUE, and the translated text in BLACK.</li>
+    <li>Each sentence is preceded by its number in the document.</li>
+    <li>The numbers are handy in case you find a mistake and want to jump to that sentence to fix it. (You have to first return to the proofread view before you can jump to the sentence.)</li>
+    <li>The sentences are formatted roughly as they will be displayed in the published product, i.e. paragraphs, songs, scriptures.</li>
+  </ol>
+</div>
+
+<!--
+<div class='well'>
+  <h3 align=center>Forgotten Password</h3><br>
+  <ol>
+   <li>Browse to www.heb138.org.</li>
+   <li>Click on 'Sign in'</li>
+   <li>Click on 'Forgot your password?'</li>
+   <li>Fill in your email address and click on 'Send me reset password instructions'</li>
+  </ol>
+ </div>
+
+<div class='well'>
+  <h3 align=center>Change Password</h3><br>
+  <ol>
+    <li>Click on 'Your Profile' in the top right area of the screen.</li>
+    <li>A drop-down menu will appear that says: 'Edit your profile'.</li>
+    <li>Click on the drop-down menu item that says: 'Edit your profile'.</li>
+    <li>Do not change your 'Email', else you won't be able to log in again.</li>
+    <li>Fill in your current password in the 'Current password' field (the one provided to you).</li>
+    <li>Fill in your new password in the 'Password' field.</li>
+    <li>Fill in your new password again in the 'Password confirmation' field.</li>
+    <li>Click the 'Update' button.</li>
+    <li>Please do not give your password to anyone.</li>
+  </ol>
+ </div>
+-->
+
+<% else %>
+
+<h3 style='color:red' align=center>Please sign in to continue ...</h3>
+
+<% end %>
+
+<% if current_user.cur_assign %>
+<div class='center'>
+  <%= link_to "Back to Proofread View", translation_sentence_path(translation, sentence), class: 'btn btn-xlarge btn-lg btn-success btn-primary' %>
+</div>
+<% end %>

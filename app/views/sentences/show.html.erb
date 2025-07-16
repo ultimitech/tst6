@@ -1,0 +1,185 @@
+<% javascript_include_tag "content_edit" %>
+
+<!-- timeout for inactivity to stop accumulating time in vote and create counters -->
+<%= javascript_tag do %>
+  var timeout_delay = <%= Contribution.cutoff*1000 %>; //in milli-seconds
+  var timeout_location = "<%= timeout_sentence_url %>";
+  var timeoutHandle = window.setTimeout(function() { window.location = timeout_location; }, timeout_delay);
+  //setTimeout(function() { window.location = "http://www.google.com"; }, timeout_delay);
+<% end %>
+
+<div class='container'>
+  <div align='center'>
+      <%= form_tag({ :controller=>"sentences", :action=>"multi_button_action" }, method: :get, class: "form-inline") do %>
+	      <%= link_to '', prev_sentence_path(translation_id: @translation.id, id: @sentence.id), class: 'btn btn-info btn-default glyphicon glyphicon-chevron-left', title: 'previous sentence', 'data-toggle'=>'tooltip', 'data-placement'=>'bottom', 'data-delay'=>'{"show": 2000, "hide": 100}' %>
+        <%= link_to '', decrease_context_sentence_path(translation_id: @translation.id, id: @sentence.id), class: 'btn btn-warning btn-default glyphicon glyphicon-minus', title: 'decrease context', 'data-toggle'=>'tooltip', 'data-placement'=>'bottom' %>&nbsp;&nbsp;
+	<%="(#{@sentence.id})" if current_user.admin? %>
+<% if current_user.admin? %>
+        <%= text_field_tag :blk, "#{@sentence.blk}", id: 'blk', class: 'form-control', placeholder: 'Blk', size: 3, title: 'current blk', 'data-toggle'=>'tooltip', 'data-placement'=>'bottom' %>
+	<%="#{@sentence.sub}"%>
+        <%= text_field_tag :rsub, "#{@sentence.rsub}", id: 'rsub', class: 'form-control', placeholder: 'RSub', size: 4, title: 'current rsub', 'data-toggle'=>'tooltip', 'data-placement'=>'bottom' %>
+	<%="#{@sentence.sen}"%>
+<% end %>
+<%= text_field_tag :rsen, "#{@sentence.rsen}", id: 'rsen', class: 'form-control', placeholder: 'RSen', size: 4, title: 'current sentence', 'data-toggle'=>'tooltip', 'data-placement'=>'bottom' %>
+<% if current_user.admin? %>
+	<%="#{@sentence.typ}"%>
+<% end %>
+	<%= hidden_field_tag :translation_id, "#{@translation.id}" %>
+	<%= button_tag('go', type: 'submit', class: "btn", :name => 'go_button', title: 'jump to sentence entered on the left', 'data-toggle'=>'tooltip', 'data-placement'=>'bottom') do %>
+          <i class="btn btn-info btn-default glyphicon glyphicon-forward"></i>
+        <% end %>
+<% votes = current_user.cur_assign.contributions.where(kind: 'V').count if current_user.cur_assign %>
+<% sens = @translation.sentences.count %>
+        <%= votes %>/<%= sens %>
+<% if sens > 0 %>
+	<b><%= '%.1f' % ((votes/sens.to_f)*100) if votes %>%</b>
+<% else %>
+        <%= 'N/A' %>
+<% end %>
+<% if current_user.admin? %>
+        <%= sentence_vote_time(@sentence) %>s
+        <%= sentence_create_time(@sentence) %>s
+<% end %>
+        <%= text_field_tag :search_term, "#{session[:search_term]}", id: 'search_term', class: 'form-control', placeholder: 'Search', size: 7, title: 'enter search text', 'data-toggle'=>'tooltip', 'data-placement'=>'bottom' %>
+	<%= button_tag('search', type: 'submit', class: "btn", :name => 'search_button', title: 'search for text entered on the left', 'data-toggle'=>'tooltip', 'data-placement'=>'bottom') do %>
+          <i class="btn btn-success btn-default glyphicon glyphicon-search"></i>
+        <% end %>
+	<%= button_tag('place', type: 'submit', class: "btn", :name => 'place_button', title: 'return to your place in the document', 'data-toggle'=>'tooltip', 'data-placement'=>'bottom') do %>
+          <i class="btn btn-info btn-default glyphicon glyphicon-bookmark"></i>
+        <% end %>
+	<%= button_tag('preview', type: 'submit', class: "btn", :name => 'preview_button', title: 'preview of previous 20 sentences up to your current sentence', 'data-toggle'=>'tooltip', 'data-placement'=>'bottom') do %>
+          <i class="btn btn-primary btn-default glyphicon glyphicon-eye-open"></i>
+        <% end %>
+        <%= link_to '', increase_context_sentence_path(translation_id: @translation.id, id: @sentence.id), class: 'btn btn-warning btn-default glyphicon glyphicon-plus', title: 'increase context', 'data-toggle'=>'tooltip', 'data-placement'=>'bottom' %>
+	<%= link_to '', next_sentence_path(translation_id: @translation.id, id: @sentence.id), class: 'btn btn-info btn-default glyphicon glyphicon-chevron-right', title: 'next sentence', 'data-toggle'=>'tooltip', 'data-placement'=>'bottom', 'data-delay'=>'{"show": 2000, "hide": 100}' %>
+	<% end %>
+  </div>
+
+<% if current_user.admin? %>
+  <div align='center' class='show-actions'>
+    <%= link_to 'Edit', edit_translation_sentence_path(@translation, @sentence), class: 'btn btn-xs btn-primary' %>
+    <%= link_to 'Delete', translation_sentence_path(@translation, @sentence), method: :delete, data: { confirm: 'Are you sure you want to delete the sentence?'}, class: 'btn btn-xs btn-danger' %>
+    <%= link_to 'View Sentences', translation_sentences_path, class: 'btn btn-xs btn-success' %>
+    <%= link_to 'New Sentence', new_translation_sentence_path(@translation), class: 'btn btn-xs btn-primary' %>
+    &nbsp;
+    <%= link_to 'New Edit', new_sentence_edit_path(@sentence), class: 'btn btn-xs btn-primary' %>
+  </div>
+<% end %>
+
+  <div class="row">
+    <div class="col-xs-12">
+<% @pred_E_edits.each do |e| %>
+	<div style='color:blue;'><%= markdown(e.content) %></div>
+<% end %>
+    </div>
+  </div>
+  <br/>
+
+  <div class="row">
+    <!--<table class="table table-bordered table-hover">-->
+    <table class="table table-borderless table-hover">
+<% if false %>
+      <thead>
+        <tr>
+          <th>Id</th>
+	  <th><%= markdown(@E_edit.content) if @E_edit %></th>
+	  <th>(<%=@sentence.id%>) Sentence: <%=@sentence.blk%>.<%=@sentence.sub%>.<%=@sentence.rsub%>.<%=@sentence.sen%>.<%=@sentence.rsen%>.<%=@sentence.typ%></th>
+          <th>#</th>
+          <th>Contributions</th>
+        </tr>
+      </thead>
+<% end %>
+      <tbody>
+        <tr>
+<% if current_user.admin? %>
+	  <td><%= link_to @E_edit.id,  sentence_edit_path(@E_edit.sentence, @E_edit) if @E_edit %></td>
+<% end %>
+	  <td style='color:blue;'><%= markdown(@E_edit.content) if @E_edit %></td>
+        </tr>
+<% @sentence.edits.order('created_at desc').each do |edit| %>
+  <% vote = false %>
+  <% if edit.sentence.translation.lan != 'ENG' %> 
+        <tr>
+
+<% if current_user.admin? %>
+          <td><%= link_to edit.id, sentence_edit_path(edit.sentence, edit) %></td>
+<% end %>
+
+	  <td class='<%= top_edit_class(edit.top) %>', dir="auto">
+            <div class="editable" id= <%= "#{edit.id}" %> >
+              <%= form_tag("/sentences/#{edit.sentence_id}/edits/#{edit.id}/save_modified_clone", :method=>'post', dir: 'auto') do %>
+                <%= text_area_tag :content, "#{edit.content}", class: "text_area_tag", id: "t#{edit.id}", style: 'width:100%; height:100%; font-size:12px; border:none;', dir: 'auto' %>
+                <%= submit_tag 'Save', class: "submit_tag btn btn-default", style: 'display: none;' %>
+                <%= submit_tag 'Cancel', class: "cancel_tag btn btn-default", style: 'display: none;' %>
+                <%= button_tag 'Clear', type: 'button', class: "clear_tag btn btn-default", id: "c#{edit.id}", style: 'display: none;' %>
+                <%#= text_field_tag 'base', 'm', id: "h#{edit.id}" %> <!-- for debug -->
+                <%= hidden_field_tag 'base', 'm', id: "h#{edit.id}" %>
+              <% end %>
+            </div>
+
+            <div class="presentable" id= <%= "p#{edit.id}" %> >
+              <%= markdown(edit.content) %>
+            </div>
+
+          </td>
+
+          <td class="center">
+    <%# if created(edit) %>
+    <% if ['LA'].include? current_user.cur_assign.role %>
+              <%= link_to '', sentence_edit_path(@sentence, edit), method: :delete, data: { confirm: 'Are you sure you want to delete the edit?'}, class: 'btn btn-danger btn-default glyphicon glyphicon-trash icon-white' %>
+    <% else %>
+              <%#= link_to '', sentence_edit_path(@sentence, edit), method: :delete, data: { confirm: 'Are you sure you want to delete the edit?'}, class: 'btn btn-danger btn-default glyphicon glyphicon-trash icon-white disabled' %>
+    <% end %>
+    <% if voted_for(edit) %>
+	    <%= link_to '', vote_sentence_edit_path(@sentence, edit), method: :post, class: "btn btn-success btn-default glyphicon glyphicon-ok icon-white", autofocus: true, id: "focusvote" %>
+    <% else %>
+	    <%= link_to '', vote_sentence_edit_path(@sentence, edit), method: :post, class: "btn btn-success btn-default glyphicon glyphicon-unchecked icon-white", autofocus: true, id: "focusvote" %>
+    <% end %>
+    <% if edit.top != 'N' %>
+              <%#= link_to '', sentence_edit_path(@sentence, edit), method: :delete, data: { confirm: 'Are you sure you want to delete the edit?'}, class: 'btn btn-warning btn-lg glyphicon glyphicon-trash icon-white' %>
+    <% end %>
+          </td>
+
+<% if current_user.admin? || current_user.cur_assign.role == 'CE' %>
+	  <td>
+	    <%= pluralize(edit.vote_count, 'vote') %>
+          </td>
+
+	  <td>
+    <% edit.contributions.each do |c| %>
+      <% if c.kind == 'C' %>
+	      <div style='color:red;'><%= "#{c.kind}(#{c.effort_in_seconds})-#{c.assignment.role}-#{c.assignment.user.username}, " %></div> 
+      <% elsif c.kind =='V' %>
+	      <%= "#{c.kind}(#{c.effort_in_seconds})-#{c.assignment.role}-#{c.assignment.user.username}, " %> 
+      <% else %>
+	    <div style='color:green;'><%= "#{c.kind}-#{c.assignment.role}-#{c.assignment.user.username}, " %></div> 
+      <% end %>
+    <% end %>
+          </td>
+<% end %>
+
+<% if current_user.admin? %>
+	  <td>
+    <% edit.contributions.each do |c| %>
+	    <%= "#{c.kind}#{c.base}-#{c.base_edit_id}, " if c.base && c.base_edit %>
+    <% end %>
+          </td>
+<% end %>
+
+        </tr>
+  <% end %><!--if-->
+<% end %><!--each-->
+      </tbody>
+    </table>
+  </div> <!--row-->
+
+  <div class="row">
+    <div class="col-xs-12">
+<% @succ_E_edits.each do |e| %>
+  <div style='color:blue;'><%= markdown(e.content) %></div>
+<% end %>
+    </div>
+  </div> <!--row-->
+
+  </div>
+</div>

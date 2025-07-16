@@ -1,0 +1,29 @@
+<h1 align='center'>Edits</h1>
+<div class='container'>
+  <table class='table table-condensed table-bordered table-hover'>
+    <thead>
+      <tr>
+        <th>Content</th>
+        <th>Hid</th>
+        <th>Top</th>
+        <th colspan="3">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @edits.each do |edit| %>
+        <tr>
+          <td><%= edit.content %></td>
+          <td><%= edit.hid %></td>
+          <td><%= edit.top %></td>
+          <td><%= link_to 'Show', [@sentence, edit] %></td>
+          <td><%= link_to 'Edit', edit_sentence_edit_path(@sentence, edit) %></td>
+<% #if logged_in? && current_user == edit.user %>
+          <td><%= link_to 'Destroy', [@sentence, edit], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<% #end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= link_to 'New Edit', new_sentence_edit_path %>

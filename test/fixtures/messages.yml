@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  dod: 2025-02-07
+  tod: MyString
+  dow: MyString
+  title: MyString
+  descriptor: MyString
+
+two:
+  dod: 2025-02-07
+  tod: MyString
+  dow: MyString
+  title: MyString
+  descriptor: MyString

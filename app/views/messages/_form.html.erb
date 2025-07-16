@@ -1,0 +1,55 @@
+<%= render 'shared/errors', obj: [@message] %>
+<div class='row'>
+  <div class='col-xs-12'>
+    <%= form_for(@message, :html => {class: 'form-horizontal', role: 'form'}) do |f| %>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+          <%= f.label 'Date Of Delivery' %>
+        </div>
+        <div class='col-sm-8'>
+          <%= f.date_select :dod, start_year: 1947, end_year: 1965, class: 'form-control', autofocus: true %>
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+          <%= f.label 'Time Of Day' %>
+        </div>
+        <div class='col-sm-8'>
+          <%= f.select :tod, [['Breakfast', 'b'], ['Sunrise', 's'], ['Morning', 'x'], ['Afternoon', 'y'], ['Evening', 'z']], class: 'form-control', placeholder: 'Time Of Day' %>
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+          <%= f.label 'Day Of Week' %>
+        </div>
+        <div class='col-sm-8'>
+          <%= f.select :dow, [['Sunday', 'su'], ['Monday', 'mo'], ['Tuesday', 'tu'], ['Wednesday', 'we'], ['Thursday', 'th'], ['Friday', 'fr'], ['Saturday', 'sa']], class: 'form-control', placeholder: 'Day Of Week' %>
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+          <%= f.label 'Descriptor' %>
+        </div>
+        <div class='col-sm-8'>
+          <%= f.text_field :descriptor, class: 'form-control', placeholder: 'Descriptor' %>
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+          <%= f.label 'Title' %>
+        </div>
+        <div class='col-sm-8'>
+          <%= f.text_field :title, class: 'form-control', placeholder: 'Title' %>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class='col-sm-offset-2 col-xs-10'>
+          <%= f.submit class: 'btn btn-primary btn-lg' %>
+        </div>
+      </div>
+    <% end %>
+    <div class='col-xs-4 col-xs-offset-4'>
+      [ <%= link_to "Cancel request and return to messages listing", messages_path %> ]
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div class='container'>
+  <h1 align='center'>All Messages</h1>
+  <!--
+  <div align='center'>
+    <%#= will_paginate @messages %>
+  </div>
+  -->
+  <table class='table table-condensed table-bordered table-hover'>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Day</th>
+        <th>Title</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @messages.each do |message| %>
+        <tr>
+          <td><%= link_to message.id, message %></td>
+          <td><%= message.dod %></td>
+          <td><%= message.tod %></td>
+          <td><%= message.dow %></td>
+          <td><%= message.title %></td>
+          <td><%= link_to 'Edit', edit_message_path(message) %></td>
+          <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <!--
+  <div align='center'>
+    <%#= will_paginate @messages %>
+  </div>
+  -->
+</div>

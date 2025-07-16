@@ -1,0 +1,44 @@
+<h2 align='center'><%= current_user.cur_assign.translation.lan %> proofreading over last 7 days: <%= @time_lastweek.to_s(:short) %> to <%= @time_now.to_s(:short) %> (UTC)</h2>
+
+<div class='container'>
+  <table class='table table-condensed table-bordered table-hover table-striped'>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Role</th>
+        <th>Lang</th>
+        <th>Descriptor</th>
+        <th>Title</th>
+        <th>Done</th>
+        <th>Complete</th>
+        <th>Effort</th>
+      </tr>
+    </thead>
+    <tbody>
+<% total_votes = 0 %>
+<% @team_report.each do |a| %>
+      <tr>
+        <td><strong><%= a['username'] %></strong></td>
+        <td><%= a['role'] %></td>
+        <td><%= a['lan'] %></td>
+        <td><%= format_descriptor(a['descriptor']) %></td>
+        <td><%= a['title'] %></td>
+        <td><%= format_votes(a['votes']) %></td>
+        <td><%= format_completion(a['completion']) %></td>
+        <td><%= format_minutes(a['minutes']) %></td>
+      </tr>
+<% end %>
+    </tbody>
+  </table>
+</div>
+
+<div>
+  <strong>Total sentences proofread:</strong> <%= @team_summary['votes'] %> <br/>
+  <strong>Total time worked:</strong> <%= format_hours_minutes(@team_summary['minutes']) %> <br/>
+  <strong>Total assignments:</strong> <%= @team_summary['assignments'] %> <br/>
+  <strong>Average sentences/assignment:</strong> <%= (@team_summary['votes'].to_f/@team_summary['assignments'].to_f).round(2) %> <br/>
+</div>
+
+<div align='center' class='show-actions'>
+  <%= link_to "Back to Proofread View", {controller: "users", action: "switch_current_assignment", id: current_user.id, assignment_id: current_user.cur_assign.id}, class: 'btn btn-xlarge btn-lg btn-success btn-primary' %>
+</div>

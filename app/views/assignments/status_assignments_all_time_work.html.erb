@@ -1,0 +1,93 @@
+<!-- All-Time Work report -->
+<h2>All-Time Work (completed/published)</h2>
+<div class='container'>
+  <table class='table table-condensed table-bordered table-hover table-striped'>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>All Sentences</th>
+        <th>All Effort</th>
+        <th>All Assignments</th>
+        <th>ccs_k</th>
+        <th>ccs_m</th>
+        <th>vcs_a</th>
+        <th>vcs_c</th>
+        <th>vcs_t</th>
+        <th>vcs_p</th>
+      </tr>
+    </thead>
+    <tbody>
+<% all_time_vcs = 0 %>
+<% all_time_ctvt = 0 %>
+<% all_time_asns = 0 %>
+<% all_time_ccs_k = 0 %>
+<% all_time_ccs_m = 0 %>
+<% all_time_vcs_a = 0 %>
+<% all_time_vcs_c = 0 %>
+<% all_time_vcs_t = 0 %>
+<% all_time_vcs_p = 0 %>
+<% @all_users.each do |u| %>
+  <% all_vcs = 0 %>
+  <% all_ctvt = 0 %>
+  <% all_ccs_k = 0 %>
+  <% all_ccs_m = 0 %>
+  <% all_vcs_a = 0 %>
+  <% all_vcs_c = 0 %>
+  <% all_vcs_t = 0 %>
+  <% all_vcs_p = 0 %>
+  <% all_asns = u.assignments.where(role: ['TE', 'CE', 'HT'], status: 'cd').to_a %>
+  <% if(all_asns.size>0) %>
+      <tr>
+    <% all_asns.each do |a| %>
+      <% all_vcs += a.vcs if a.vcs %>
+      <% all_vcs += a.ccs if (a.ccs and a.role=='HT') %>
+      <% all_ctvt += a.ct if(a.ct) %>
+      <% all_ctvt += a.vt if(a.vt) %>
+      <% all_ccs_k += a.ccs_k if(a.ccs_k) %>
+      <% all_ccs_m += a.ccs_m if(a.ccs_m) %>
+      <% all_vcs_a += a.vcs_a if(a.vcs_a) %>
+      <% all_vcs_c += a.vcs_c if(a.vcs_c) %>
+      <% all_vcs_t += a.vcs_t if(a.vcs_t) %>
+      <% all_vcs_p += a.vcs_p if(a.vcs_p) %>
+    <% end %>
+        <td><%= u.username %></td>
+        <td><%= all_vcs %></td>
+        <td><%= format_minutes(all_ctvt/60.0) %></td>
+        <td><%= all_asns.size %></td>
+        <td><%= all_ccs_k %></td>
+        <td><%= all_ccs_m %></td>
+        <td><%= all_vcs_a %></td>
+        <td><%= all_vcs_c %></td>
+        <td><%= all_vcs_t %></td>
+        <td><%= all_vcs_p %></td>
+      </tr>
+  <% end %>
+  <% all_time_vcs += all_vcs if all_vcs>0 %>
+  <% all_time_ctvt += all_ctvt if all_ctvt>0 %>
+  <% all_time_asns += all_asns.size if all_asns.size>0 %>
+  <% all_time_ccs_k += all_ccs_k if all_ccs_k>0 %>
+  <% all_time_ccs_m += all_ccs_m if all_ccs_m>0 %>
+  <% all_time_vcs_a += all_vcs_a if all_vcs_a>0 %>
+  <% all_time_vcs_c += all_vcs_c if all_vcs_c>0 %>
+  <% all_time_vcs_t += all_vcs_t if all_vcs_t>0 %>
+  <% all_time_vcs_p += all_vcs_p if all_vcs_p>0 %>
+<% end %>
+    </tbody>
+  </table>
+</div>
+<div>
+  <strong>All-time sentences proofread:</strong> <%= all_time_vcs %> <br/>
+  <strong>All-time effort:</strong> <%= format_minutes(all_time_ctvt/60.0) %> <br/>
+  <strong>All-time assignments:</strong> <%= all_time_asns %> <br/>
+  <strong>------------------</strong> <br/>
+  <strong>All-time create contributions by klearing:</strong> <%= all_time_ccs_k %> <br/>
+  <strong>All-time create contributions by modding:</strong> <%= all_time_ccs_m %> <br/>
+  <strong>All-time vote contributions by accepting:</strong> <%= all_time_vcs_a %> <br/>
+  <strong>All-time vote contributions by creating:</strong> <%= all_time_vcs_c %> <br/>
+  <strong>All-time vote contributions by topping:</strong> <%= all_time_vcs_t %> <br/>
+  <strong>All-time vote contributions by picking:</strong> <%= all_time_vcs_p %> <br/>
+</div>
+
+<div align='center' class='show-actions'>
+  <%= link_to "Back to Proofread View", {controller: "users", action: "switch_current_assignment", id: current_user.id, assignment_id: current_user.cur_assign.id}, class: 'btn btn-xlarge btn-lg btn-success btn-primary' if current_user.cur_assign %>
+</div>

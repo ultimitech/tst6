@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  lan: MyString
+  tran_title: MyString
+  descrip: MyString
+  blkc: 1
+  subc: 1
+  senc: 1
+  xcrip: MyString
+  li: false
+  pubdate: 2025-02-08
+  version: MyString
+  message: one
+
+two:
+  lan: MyString
+  tran_title: MyString
+  descrip: MyString
+  blkc: 1
+  subc: 1
+  senc: 1
+  xcrip: MyString
+  li: false
+  pubdate: 2025-02-08
+  version: MyString
+  message: two

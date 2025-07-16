@@ -1,0 +1,31 @@
+<h1 align='center'>All Users</h1>
+<div class='container'>
+  <table class='table table-condensed table-bordered table-hover'>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Email</th>
+        <th>Username</th>
+        <th>Current Assignment</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= link_to user.id, user %></td>
+          <td><%= mail_to(user.email) %></td>
+          <td><%= user.username %><%= ' (ADMIN)' if user.admin? %></td>
+<% if user.cur_assign %>
+	  <td><%= link_to "#{user.cur_assign.assignment_text}", assignment_path(user.cur_assign) %></td>
+<% else %>
+	  <td><%= "" %></td>
+<% end %>
+          <td><%= link_to 'Edit', edit_user_path(user) %></td>
+          <td><%= link_to 'Destroy', admin_destroy_user_path(user), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%#= link_to 'Destroy', cancel_user_registration_path(user), data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

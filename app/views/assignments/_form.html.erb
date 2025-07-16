@@ -1,0 +1,188 @@
+<%#= render 'shared/errors', obj: @assignment %>
+
+<div class='row'>
+  <div class='col-xs-12'>
+    <%= form_for(@assignment, :html => {class: 'form-horizontal', role: 'form'}) do |f| %>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+          <%= f.label 'CreatedAt' %>
+        </div>
+        <div class='col-sm-8'>
+          <%= f.date_select :created_at, start_year: 2014, end_year: 2030, class: 'form-control', autofocus: true %>
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :role %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.select :role, [ ['English Provider (EP)', 'EP'], ['Emphasis Editor (EE)', 'EE'], ['Machine Translator (MT)', 'MT'], ['Human Translator (HT)', 'HT'], ['No Translator (NT)', 'NT'], ['Translation Editor (TE)', 'TE'], ['Scripture Editor (SE)', 'SE'], ['Poetry Editor (PE)', 'PE'], ['Chief Editor (CE)', 'CE'], ['Quality Editor (QE)', 'QE'], ['Language Administrator (LA)', 'LA'], ['For Testing (XX)', 'XX'] ], class: 'form-control', placeholder: 'Role' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :active %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.check_box :active, class: 'form-control', placeholder: 'Active' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label 'Content Imported' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.check_box :ci, class: 'form-control', placeholder: 'Content Imported' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :place %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :place, class: 'form-control', placeholder: 'Place' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :translation %>
+        </div>
+        <div class='col-sm-8'>
+		<% xlats = Translation.all.sort_by {|x| [x.lan, x.message.descriptor]} %>
+		<%= f.collection_select :translation_id, xlats, :id, :translation_text, class: 'form-control', placeholder: 'Translation', include_blank: "None" %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :user %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.collection_select :user_id, User.order(:username), :id, :username, class: 'form-control', placeholder: 'User', include_blank: "None" %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :status %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.select :status, [ ['In Process (ip)', 'ip'], ['Completed (cd)', 'cd'], ['TE editing (te)', 'te'], ['CE editing (ce)', 'ce'], ['QE editing (qe)', 'qe'], ['Publishing (pg)', 'pg'], ['Published (pd)', 'pd'] , ['Pruned (pr)', 'pr'] ], class: 'form-control', placeholder: 'Status' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :ccs, 'Final Create contributions' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :ccs, class: 'form-control', placeholder: 'Create contributions' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :ccs_k, '- by klearing' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :ccs_k, class: 'form-control', placeholder: 'by klearing' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :ccs_m, '- by modding' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :ccs_m, class: 'form-control', placeholder: 'by modding' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :vcs, 'Final Vote contributions' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :vcs, class: 'form-control', placeholder: 'Vote contributions' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :vcs_a, '- by accepting' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :vcs_a, class: 'form-control', placeholder: 'by accepting' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :vcs_c, '- by creating' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :vcs_c, class: 'form-control', placeholder: 'by creating' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :vcs_t, '- by topping' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :vcs_t, class: 'form-control', placeholder: 'by topping' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :vcs_p, '- by picking' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :vcs_p, class: 'form-control', placeholder: 'by picking' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :ct, 'Final Create time (s)' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :ct, class: 'form-control', placeholder: 'Create time' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :vt, 'Final Vote time (s)' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :vt, class: 'form-control', placeholder: 'Vote time' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :majtes, 'Final Majority Top Edits' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :majtes, class: 'form-control', placeholder: 'Majority Top Edits' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :tietes, 'Final Tie Top Edits' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.number_field :tietes, class: 'form-control', placeholder: 'Tie Top Edits' %> 
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='control-label col-sm-2'>
+            <%= f.label :notes, 'Notes' %>
+        </div>
+        <div class='col-sm-8'>
+            <%= f.text_field :notes, class: 'form-control', placeholder: 'Notes' %> 
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class='col-sm-offset-2 col-xs-10'>
+          <%= f.submit class: 'btn btn-primary btn-lg' %>
+        </div>
+      </div>      
+    <% end %>
+
+    <div class='col-xs-4 col-xs-offset-4'>
+      [ <%= link_to "Cancel request and return to assignments listing", assignments_path %> ]
+    </div>    
+
+  </div>
+</div>

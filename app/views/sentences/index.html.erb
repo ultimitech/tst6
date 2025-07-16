@@ -1,0 +1,42 @@
+<h1 align='center'>Sentences</h1>
+<div class='container'>
+  <div align='center'>
+    <%= will_paginate @sentences %>
+  </div>
+  <table class='table table-condensed table-bordered table-hover'>
+    <thead>
+      <tr>
+        <th>Blk</th>
+        <th>Sub</th>
+        <th>RSub</th>
+        <th>Sen</th>
+        <th>RSen</th>
+        <th>Typ</th>
+        <th>Tie</th>
+        <th>Translation</th>
+        <th colspan="3">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sentences.each do |sentence| %>
+        <tr>
+          <td><%= sentence.blk %></td>
+          <td><%= sentence.sub %></td>
+          <td><%= sentence.rsub %></td>
+          <td><%= sentence.sen %></td>
+          <td><%= sentence.rsen %></td>
+          <td><%= sentence.typ %></td>
+          <td><%= sentence.tie %></td>
+          <td><%= sentence.translation %></td>
+          <td><%= link_to 'Show', [@translation, sentence] %></td>
+          <td><%= link_to 'Edit', edit_translation_sentence_path(@translation, sentence) %></td>
+          <td><%= link_to 'Destroy', [@translation, sentence], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div align='center'>
+    <%= will_paginate @sentences %>
+  </div>
+<div>
+  

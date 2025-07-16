@@ -1,0 +1,39 @@
+<h3 align='center'>Your search term appears in the following sentences:</h3>
+<div class='container'>
+	<h4 align='center'>English sentences (<%= pluralize(@hits_eng.count, 'result') %>):</h4>
+  <table class='table table-condensed table-bordered table-hover'>
+    <tbody>
+      <% @hits_eng.each do |hit| %>
+        <tr>
+          <td><%= link_to hit[0], [@translation, @translation.sentences.where(rsen: hit[0]).first] %></td>
+          <td><%= hit[1] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <h4 align='center'>Translated sentences owned by me (<%= pluralize(@hits_oth_own.count, 'result') %>):</h4>
+  <table class='table table-condensed table-bordered table-hover'>
+    <tbody>
+      <% @hits_oth_own.each do |hit| %>
+        <tr>
+          <td><%= link_to hit[0], [@translation, @translation.sentences.where(rsen: hit[0]).first] %></td>
+          <td><%= hit[1] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <h4 align='center'>Translated sentences NOT owned by me (<%= pluralize(@hits_oth_not.count, 'result') %>):</h4>
+  <table class='table table-condensed table-bordered table-hover'>
+    <tbody>
+      <% @hits_oth_not.each do |hit| %>
+        <tr>
+          <td><%= link_to hit[0], [@translation, @translation.sentences.where(rsen: hit[0]).first] %></td>
+          <td><%= hit[1] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class='center'>
+  <%= link_to "Back to Proofread View", {controller: "sentences", action: "multi_button_action", translation_id: @translation.id, place_button: ''}, class: 'btn btn-xlarge btn-lg btn-success btn-primary' %>
+</div>

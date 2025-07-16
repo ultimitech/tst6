@@ -1,0 +1,39 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  role: MyString
+  active: false
+  place: 1
+  ci: false
+  status: MyString
+  ccs: 1
+  vcs: 1
+  ct: 1
+  vt: 1
+  majtes: 1
+  tietes: 1
+  ccs_m: 1
+  ccs_k: 1
+  vcs_a: 1
+  vcs_c: 1
+  vcs_t: 1
+  vcs_p: 1
+
+two:
+  role: MyString
+  active: false
+  place: 1
+  ci: false
+  status: MyString
+  ccs: 1
+  vcs: 1
+  ct: 1
+  vt: 1
+  majtes: 1
+  tietes: 1
+  ccs_m: 1
+  ccs_k: 1
+  vcs_a: 1
+  vcs_c: 1
+  vcs_t: 1
+  vcs_p: 1

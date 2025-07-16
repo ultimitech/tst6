@@ -1,0 +1,177 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+
+ #l {
+    /*  color:#fff;*/
+      color:white;
+    }
+    #l:hover {
+    /*  color:#00aff0;*/
+      /*color:gold;*/
+      color:#00aef0;
+      transition:color .2s ease-in-out;
+    }
+    #l2 {
+      color:white;
+    }
+    #l2:hover {
+      color:#00aef0;
+    }
+    #l3 {
+      /*color:gold;*/
+      color:#00aef0;
+    }
+    #fake-link {
+      /*color:gold;*/
+      color:#00aef0;
+    }
+    #l3:hover {
+      /*color:gold;*/
+      color:#00aef0;
+      /*text-decoration:underline;*/
+    }
+    #i:hover {
+      color:#fff;
+    }
+    #logo {
+      float: left; 
+      font-size: 1.7em;
+      color: #9d9d9d;
+    /*  text-transform: uppercase;*/
+      letter-spacing: -1px;
+      /*font-weight: bold;*/
+    }
+    
+    #logo:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+    
+    .center {
+      text-align: center;
+    }
+    
+    .jumbotron {
+    /*  background-image: asset-url('od.jpg');*/
+      background-image: asset-url('EasyTranslateLogo1.jpg');
+      /*background-size: cover;*/
+      background-size: 500px;
+      background-position: center;
+      background-color: transparent !important;
+      background-repeat: no-repeat;
+      height: 550px;
+    }
+    
+    .jumbotron h1 {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: -1;
+      font-weight: bold;
+    }
+    
+    .btn-xlarge {
+      font-size: 1.7em;
+      background-color: black;
+    }
+    
+    .show-actions {
+      border-top: 1px solid #eaeaea;
+      padding-top: 5px;
+    }
+    
+    footer {
+      margin-top: 45px;
+      padding-top: 5px;
+      border-top: 1px solid #eaeaea;
+      color: #777;
+    }
+    
+    footer a:hover {
+      color: #222;
+      transition:color .2s ease-in-out;
+    }
+    
+    footer small {
+      float: left;
+    }
+    
+    footer ul {
+      float: right;
+      list-style: none;
+    }
+    
+    footer ul li {
+      float: left;
+      margin-left: 15px;
+    }
+    
+    /*flash*/
+    .alert-error {
+      background-color: #f2dede;
+      border-color: #eed3d7;
+      color: #b94a48;
+      text-align: left;
+    }
+    
+    .alert-alert {
+      background-color: #f2dede;
+      border-color: #eed3d7;
+      color: #b94a48;
+      text-align: left;
+    }
+    
+    .alert-success {
+      background-color: #dff0d8;
+      border-color: #d6e9c6;
+      color: #468847;
+      text-align: left;
+    }
+    
+    .alert-notice {
+      background-color: #dff0d8;
+      border-color: #d6e9c6;
+      color: #468847;
+      text-align: left;
+    }
+    
+    /* top edit styles */
+    .top-edit-zero-votes {
+      background-color: #f2dede;
+    }
+    
+    .top-edit-tie {
+      /*background-color: lightyellow;*/
+      background-color: #fcf8e3;
+    }
+    
+    .top-edit-majority {
+      /*background-color: #DFF2BF;*/
+      background-color: #dff0d8;
+    }
+    
+    .editable {
+      display: none;
+    }
+    
+    /*
+    .borderless td, .borderless th {
+      border: none;
+    }
+    */
+    .table-borderless tbody tr td,
+    .table-borderless tbody tr th,
+    .table-borderless thead tr th,
+    .table-borderless thead tr td,
+    .table-borderless tfoot tr th,
+    .table-borderless tfoot tr td {
+      border: none;
+    }

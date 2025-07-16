@@ -1,0 +1,35 @@
+<h2 align='center'>Contribution</h2>
+
+<div class='col-xs-8 col-xs-offset-2'>
+  <table class='table table-striped'>
+    <tbody>
+      <tr>
+        <td><strong>Id</strong></td>
+        <td><%= @contribution.id %></td>
+      </tr>
+      <tr>
+        <td><strong>Kind</strong></td>
+        <td><%= @contribution.kind %></td>
+      </tr>
+      <tr>
+        <td><strong>Effort in seconds</strong></td>
+        <td><%= @contribution.effort_in_seconds %></td>
+      </tr>
+      <tr>
+        <td><strong>Edit</strong></td>
+        <td><%= link_to @contribution.edit.content, sentence_edit_path(@contribution.edit.sentence, @contribution.edit) %></td>
+      </tr>            
+      <tr>
+        <td><strong>Assignment</strong></td>
+	<td><%= link_to @contribution.assignment.assignment_text, assignment_path(@contribution.assignment) %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class='show-actions'>
+    <%= link_to 'Edit', edit_contribution_path(@contribution), class: 'btn btn-xs btn-primary' %>
+    <%= link_to 'Delete', contribution_path(@contribution), method: :delete, data: { confirm: 'Are you sure you want to delete the contribution?'}, class: 'btn btn-xs btn-danger' %>
+    <%= link_to 'New Contribution', new_contribution_path(@contribution), class: 'btn btn-xs btn-primary' %>
+  </div>
+
+</div>

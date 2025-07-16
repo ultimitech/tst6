@@ -1,0 +1,63 @@
+<h2 align='center'>Edit</h2>
+
+<div class='col-xs-8 col-xs-offset-2'>
+
+  <table class='table table-striped'>
+    <tbody>
+      <tr>
+        <td><strong>Id:</strong></td>
+        <td><%= @edit.id %></td>
+      </tr>
+      <tr>
+        <td><strong>Content:</strong></td>
+        <td><%= markdown(@edit.content) %></td>
+      </tr>
+      <tr>
+        <td><strong>Hid:</strong></td>
+        <td><%= @edit.hid %></td>
+      </tr>
+      <tr>
+        <td><strong>Top:</strong></td>
+        <td><%= @edit.top %></td>
+      </tr>
+      <tr>
+        <td><strong>Sentence:</strong></td>
+        <td><%= link_to @edit.sentence.sentence_text, translation_sentence_path(@edit.sentence.translation, @edit.sentence) %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class='show-actions'>
+    <%= link_to 'Edit', edit_sentence_edit_path(@sentence, @edit), class: 'btn btn-xs btn-primary' %>
+    <%= link_to 'Delete', sentence_edit_path(@sentence, @edit), method: :delete, data: { confirm: 'Are you sure you want to delete the edit?'}, class: 'btn btn-xs btn-danger' %>
+    <%= link_to 'View Edits', sentence_edits_path, class: 'btn btn-xs btn-success' %>
+    <%= link_to 'New Edit', new_sentence_edit_path(@sentence), class: 'btn btn-xs btn-success' %>
+    &nbsp;
+    <%= link_to 'New Contribution', new_contribution_path, class: 'btn btn-xs btn-success' %>
+  </div>
+
+  <div>
+    <h3 align='center'>Contributions</h3>
+    <table class='table table-striped table-condensed'>
+      <thead>
+	<tr>
+          <td><strong>Id</strong></td>
+          <td><strong>Kind</strong></td>
+          <td><strong>Assignment</strong></td>
+        </tr>
+      </thead>
+      <tbody>
+<% @edit.contributions.each do |c| %>
+	<tr>
+          <td><%= link_to c.id, c %></td>
+          <td><%= c.kind %></td>
+          <td><%= link_to "#{c.assignment.assignment_text}", assignment_path(c.assignment) %></td> 
+	  <td><%= link_to 'Edit', edit_contribution_path(c) %></td>
+	  <td><%= link_to 'Delete', c, method: :delete, data: { confirm: 'Are you sure you want to delete this Contribution?' } %></td>
+        </tr> 
+<% end %>
+      </tbody>
+    </table>
+  </div>  
+
+</div>
